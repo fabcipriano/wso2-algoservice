@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/healthcare" name="HealthcareAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="GET" uri-template="/querydoctor/{category}">
+    <resource methods="GET">
         <inSequence>
             <log description="welcome" level="custom">
-                <property name="message" value="Welcome to the HealthcareService"/>
+                <property name="message" value="Welcome to the BLOCKED HealthcareService 3"/>
             </log>
-            <send>
-                <endpoint key="QueryDoctorEP"/>
-            </send>
+            <call blocking="true">
+                <endpoint>
+                    <address uri="http://wso2training-restsamples.wso2apps.com/healthcare/surgery"/>
+                </endpoint>
+            </call>
+            <log level="custom">
+                <property name="message:" value=" Returned from callout"/>
+                <property expression="get-property('axis2','HTTP_SC')" name="status1:"/>
+                <property expression="$axis2:HTTP_SC" name="status2:"/>
+            </log>
+            <loopback/>
         </inSequence>
         <outSequence>
-            <send/>
+            <log level="custom">
+                <property name="MESSAGE" value="+++++++++++++++++++++++++++++++++++++++++++++++++++++++ Hit Out Sequence +++++++++++++++++++++++++++++++++++++++++++"/>
+            </log>
+            <respond/>
         </outSequence>
         <faultSequence/>
     </resource>

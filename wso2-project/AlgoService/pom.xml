@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.facio.AlgoService</groupId>
   <artifactId>AlgoService</artifactId>
-  <version>1.0.0</version>
+  <version>1.6.0</version>
   <packaging>pom</packaging>
   <name>AlgoService</name>
   <description>AlgoService</description>
