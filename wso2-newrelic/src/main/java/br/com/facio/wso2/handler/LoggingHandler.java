@@ -15,26 +15,22 @@ public class LoggingHandler extends AbstractSynapseHandler {
 
 
     public boolean handleRequestInFlow(MessageContext synCtx) {
-        LOG.info("begin In Flux ...");
-        LOG.info("handleRequestInFlow.: " + endpointInfo(synCtx));
+        LOG.info("-----> begin In Flux ... handleRequestInFlow.: " + endpointInfo(synCtx));
         return true;
     }
 
     public boolean handleRequestOutFlow(MessageContext synCtx) {
-        LOG.info("end In Flux.");
-        LOG.info("handleRequestOutFlow.: " + endpointInfo(synCtx));
+        LOG.info("-----> end In Flux. handleRequestOutFlow.: " + endpointInfo(synCtx));
         return true;
     }
 
     public boolean handleResponseInFlow(MessageContext synCtx) {
-        LOG.info("begin Out Flux ...");
-        LOG.info("handleResponseInFlow.: " + endpointInfo(synCtx));
+        LOG.info("-----> begin Out Flux ... handleResponseInFlow.: " + endpointInfo(synCtx));
         return true;
     }
 
     public boolean handleResponseOutFlow(MessageContext synCtx) {
-        LOG.info("end Out Flux.");
-        LOG.info("handleResponseOutFlow.: " + endpointInfo(synCtx));
+        LOG.info("-----> end Out Flux.handleResponseOutFlow.: " + endpointInfo(synCtx));
         return true;
     }
     
