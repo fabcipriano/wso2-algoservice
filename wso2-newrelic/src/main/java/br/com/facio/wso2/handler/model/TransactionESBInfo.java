@@ -1,5 +1,7 @@
 package br.com.facio.wso2.handler.model;
 
+import com.newrelic.api.agent.Agent;
+import com.newrelic.api.agent.NewRelic;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +57,12 @@ public class TransactionESBInfo {
     public void finishAndLogTransactionInfo(MessageContext synCtx) {
         finish(synCtx);
         logTransactionInfo();
+    }
+    
+    public void finishAndSendToNewRelicInsights(MessageContext synCtx) {
+        finish(synCtx);
+        Agent agent = NewRelic.getAgent();  
+        agent.getInsights().recordCustomEvent("Inside_Synapse_ESB", eventAttributes);  
     }
     
     public void insertResponseInFlowId(MessageContext synCtx) {

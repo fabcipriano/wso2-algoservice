@@ -4,11 +4,16 @@
     <groupId>br.com.facio.wso2</groupId>
     <artifactId>wso2-newrelic</artifactId>
     <packaging>jar</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <name>wso2-newrelic</name>
     <url>http://maven.apache.org</url>
     
     <dependencies>
+        <dependency>
+            <groupId>com.newrelic.agent.java</groupId>
+            <artifactId>newrelic-api</artifactId>
+            <version>4.5.0</version>
+        </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
