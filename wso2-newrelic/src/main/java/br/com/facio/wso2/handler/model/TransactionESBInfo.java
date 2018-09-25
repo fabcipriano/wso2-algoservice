@@ -21,7 +21,11 @@ public class TransactionESBInfo {
     private static String TRANSACTION_ENDPOINT_SERVER_FROM = "endpointServerFROM";
     static {
         try {
-            ESB_HOSTNAME = InetAddress.getLocalHost().getHostName();
+            InetAddress localHost = InetAddress.getLocalHost();
+            LOG.info("localHost.: " + localHost.toString());
+            String hostName = localHost.getHostName();
+            LOG.info("hostName.: " + hostName);
+            ESB_HOSTNAME = hostName;
         } catch (Exception ex) {
             LOG.error("Failed to find HOSTNAME ESB. Use default \"localhost\"", ex);
         }
@@ -38,7 +42,6 @@ public class TransactionESBInfo {
             return;
         }
 
-        LOG.info("before in creation eventAttributes=" + eventAttributes);
         eventAttributes.put(TRANSACTION_ENDPOINT_CLIENT_TO, endpointTO(synCtx));
         eventAttributes.put(TRANSACTION_ENDPOINT_CLIENT_FROM, endpointFROM(synCtx));
         eventAttributes.put("host", ESB_HOSTNAME);
@@ -47,15 +50,11 @@ public class TransactionESBInfo {
         eventAttributes.put("transactionType", "Web");
         eventAttributes.put("transactionSubType", "Inside Synapse ESB");
         eventAttributes.put("originalMessageId", synCtx.getMessageID());
-        LOG.info("after in creation eventAttributes=" + eventAttributes);
     }
     
     public void finishAndLogTransactionInfo(MessageContext synCtx) {
-        LOG.info("Before in finishAndLogTransactionInfo eventAttributes=" + eventAttributes);
         finish(synCtx);
-        LOG.info("After in finishAndLogTransactionInfo eventAttributes=" + eventAttributes);
         logTransactionInfo();
-        LOG.info("After in logTransactionInfo eventAttributes=" + eventAttributes);
     }
 
     private void finish(MessageContext synCtx) {
@@ -69,6 +68,10 @@ public class TransactionESBInfo {
         eventAttributes.put(TRANSACTION_ENDPOINT_SERVER_TO, endpointTO(synCtx));
         eventAttributes.put(TRANSACTION_ENDPOINT_SERVER_FROM, endpointFROM(synCtx));
         eventAttributes.put("responseMessageId", synCtx.getMessageID());
+        eventAttributes.put("isFaultResponse", synCtx.isFaultResponse());
+        if (synCtx.isFaultResponse()) {
+            eventAttributes.put("faultEndpointTO", faultEndpointTO(synCtx));
+        }
     }
 
     private void logTransactionInfo() {
@@ -82,6 +85,15 @@ public class TransactionESBInfo {
         LOG.info(transactionInfo);
     }
 
+    private String faultEndpointTO(MessageContext synCtx) {
+        EndpointReference to = synCtx.getFaultTo();
+        String toEndpoint = "";
+        if (to != null) {
+            toEndpoint = to.getAddress();
+        }
+        return toEndpoint;
+    }
+    
     private String endpointFROM(MessageContext synCtx) {
         EndpointReference from = synCtx.getFrom();
         String fromEndpoint = "";

@@ -23,7 +23,6 @@ public class MetricsLoggingHandler extends AbstractSynapseHandler {
         LOG.info("#-----> Begin IN Flux - handleRequestInFlow.: " + endpointInfo(synCtx));
         TransactionESBInfo info = new TransactionESBInfo(synCtx);
         synCtx.setProperty(TRANSACTION_ESB_INFO, info);
-        finalizeTransactionESBAndLog(synCtx);
         return true;
     }
 
