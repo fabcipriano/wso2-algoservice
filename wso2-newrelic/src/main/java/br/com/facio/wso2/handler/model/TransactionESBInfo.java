@@ -56,8 +56,18 @@ public class TransactionESBInfo {
         finish(synCtx);
         logTransactionInfo();
     }
+    
+    public void insertResponseInFlowId(MessageContext synCtx) {
+        eventAttributes.put("responseMessageInFlowId", synCtx.getMessageID());
+    }
 
     private void finish(MessageContext synCtx) {
+        
+        if (synCtx == null) {
+            LOG.error("MessageContext is NULL !!!!!");
+            return;
+        }
+        
         long duration = 0;
         if (startCurrentTimeMillis != 0) {
             duration = System.currentTimeMillis() - startCurrentTimeMillis;

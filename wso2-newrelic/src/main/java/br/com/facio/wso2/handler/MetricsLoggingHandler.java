@@ -33,6 +33,8 @@ public class MetricsLoggingHandler extends AbstractSynapseHandler {
 
     public boolean handleResponseInFlow(MessageContext synCtx) {
         LOG.info("#-----> Begin OUT Flux - handleResponseInFlow.: " + endpointInfo(synCtx));
+        TransactionESBInfo transaction = findTransactionESB4ThisMessage(synCtx);
+        transaction.insertResponseInFlowId(synCtx);
         return true;
     }
 
@@ -43,12 +45,19 @@ public class MetricsLoggingHandler extends AbstractSynapseHandler {
     }
 
     private void finalizeTransactionESBAndLog(MessageContext synCtx) {
+        completeStatistcsAndLog(synCtx, findTransactionESB4ThisMessage(synCtx));
+    }
+
+    private TransactionESBInfo findTransactionESB4ThisMessage(MessageContext synCtx) {
+        TransactionESBInfo transaction = null;
         Object property = synCtx.getProperty(TRANSACTION_ESB_INFO);
         if (isTransactionESBInfo(property)) {
-            completeStatistcsAndLog(synCtx, (TransactionESBInfo)property);
+            transaction = (TransactionESBInfo)property;
         } else {
             LOG.error("We dont HAVE Transaction ESB Info. Im sorry no statistcs for you !!!!!!");
         }
+        
+        return transaction;
     }
 
     private static boolean isTransactionESBInfo(Object property) {
