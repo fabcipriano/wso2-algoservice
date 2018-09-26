@@ -129,4 +129,8 @@ public class TransactionESBInfo {
         }
         return toEndpoint;
     }
+    
+    Map<String, Object> getEventAttributes() {
+        return eventAttributes;
+    }
 }

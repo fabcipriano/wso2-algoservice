@@ -17,7 +17,7 @@ WSO2 New Relic Insight Handler is responsable to extend WSO2 using [New Relic AP
 ```xml
 <handlers>
     <!-- Other handlers here -->
-    <handler name="MetricsLoggerHandler" class="br.com.facio.wso2.handler.MetricsLoggingHandler"/>
+    <handler name="NewRelicInsightsHandler" class="br.com.facio.wso2.handler.NewRelicInsightsHandler"/>
 </handlers>
 ```
 3. Go to your WSO2 ESB 5.0.0 dir ${WSO2-ESB-HOME}/repository/conf and edit the file log4j.properties and add the line below.:
@@ -30,3 +30,4 @@ log4j.category.br.com.facio.wso2=DEBUG
 * Make sure you stop WSO2 ESB 5.0.0 before install this extension
 * After this start you WSO2 ESB execute some transactions and you will see the logs
 * Tested with WSO2 ESB 5.0.0
+* Dont forget to configure New Relic in your WSO2 5.0.0 enviroment
