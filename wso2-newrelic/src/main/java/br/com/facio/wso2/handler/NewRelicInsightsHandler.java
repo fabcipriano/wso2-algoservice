@@ -4,7 +4,6 @@ import br.com.facio.wso2.handler.model.TransactionESBInfo;
 import com.newrelic.api.agent.Trace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.axis2.addressing.EndpointReference;
 import org.apache.synapse.AbstractSynapseHandler;
 import org.apache.synapse.MessageContext;
 
@@ -37,9 +36,10 @@ public class NewRelicInsightsHandler extends AbstractSynapseHandler {
 
     @Trace  
     public boolean handleResponseOutFlow(MessageContext synCtx) {
-        finalizeTransactionESBAndLog(synCtx);
+        if (LOG.isInfoEnabled()) {
+            finalizeTransactionESBAndLog(synCtx);
+        }
         finalizeTransactionESBAndSendToNewRelicInsights(synCtx);
-        LOG.info("#-----> handleResponseOutFlow().: sended to New Relic");
         return true;
     }
 
